@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flappy Bird Génétique</title>
+    <link rel="stylesheet" href="/flappybirdgenetique/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="game-area">
+            <canvas id="gameCanvas" width="800" height="600"></canvas>
+            <div class="bird-counter" id="birdCounter">Oiseaux vivants: 50</div>
+        </div>
+        
+        <div class="stats-panel">
+            <div class="generation-info" id="generationInfo">
+                Génération 1 - Évolution en cours...
+            </div>
+            
+            <div class="stat-item">
+                <span>Meilleur score:</span>
+                <span class="stat-value" id="bestScore">0</span>
+            </div>
+            
+            <div class="stat-item">
+                <span>Score moyen:</span>
+                <span class="stat-value" id="avgScore">0</span>
+            </div>
+            
+            <div class="stat-item">
+                <span>Oiseaux vivants:</span>
+                <span class="stat-value" id="aliveCount">50</span>
+            </div>
+            
+            <div class="stat-item">
+                <span>Vitesse:</span>
+                <span class="stat-value" id="speed">1x</span>
+            </div>
+            
+            <div class="controls">
+                <button onclick="togglePause()">Pause</button>
+                <button onclick="changeSpeed()">Vitesse</button>
+                <button onclick="resetSimulation()">Reset</button>
+            </div>
+        </div>
+    </div>
+        <script src="/flappybirdgenetique/logique.js"></script>
+</body>
+</html>

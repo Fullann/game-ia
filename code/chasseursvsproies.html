@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chasseurs vs Proies Évolutifs</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #0f0f23, #1a1a2e);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255, 107, 107, 0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .ecosystem-container {
+            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
+        #ecosystem {
+            width: 100%;
+            height: 600px;
+            display: block;
+            border-radius: 15px;
+        }
+
+        .controls-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .control-group {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .control-group h3 {
+            margin: 0 0 15px 0;
+            color: #4ecdc4;
+            font-size: 1.2em;
+        }
+
+        .control-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .control-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .control-row label {
+            font-size: 0.9em;
+            color: #ccc;
+        }
+
+        .control-row input[type="range"] {
+            width: 120px;
+            accent-color: #4ecdc4;
+        }
+
+        .control-row span {
+            min-width: 40px;
+            text-align: right;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.85em;
+            color: #aaa;
+        }
+
+        .predator-stat .stat-value { color: #ff6b6b; }
+        .prey-stat .stat-value { color: #4ecdc4; }
+
+        .evolution-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .evolution-trait {
+            margin-bottom: 15px;
+        }
+
+        .trait-name {
+            font-size: 0.9em;
+            color: #ccc;
+            margin-bottom: 5px;
+        }
+
+        .trait-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .trait-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .predator-trait .trait-fill { background: linear-gradient(90deg, #ff6b6b, #ff8e8e); }
+        .prey-trait .trait-fill { background: linear-gradient(90deg, #4ecdc4, #7fdddd); }
+
+        .control-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-circle {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+
+        .predator-color { background: #ff6b6b; }
+        .prey-color { background: #4ecdc4; }
+        .food-color { background: #ffd93d; }
+
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .controls-panel {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            
+            .control-group {
+                flex: 1;
+                min-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🦅 Chasseurs vs Proies Évolutifs 🐰</h1>
+        <p class="subtitle">Simulation d'écosystème avec co-évolution adaptative</p>
+
+        <div class="main-content">
+            <div class="ecosystem-container">
+                <canvas id="ecosystem"></canvas>
+            </div>
+
+            <div class="controls-panel">
+                <div class="control-group">
+                    <h3>🎛️ Paramètres</h3>
+                    <div class="control-row">
+                        <label>Vitesse simulation:</label>
+                        <input type="range" id="speed" min="1" max="5" value="2">
+                        <span id="speedValue">2x</span>
+                    </div>
+                    <div class="control-row">
+                        <label>Pression évolutive:</label>
+                        <input type="range" id="evolutionPressure" min="1" max="10" value="5">
+                        <span id="evolutionValue">5</span>
+                    </div>
+                    <div class="control-row">
+                        <label>Densité nourriture:</label>
+                        <input type="range" id="foodDensity" min="10" max="100" value="50">
+                        <span id="foodValue">50</span>
+                    </div>
+                    <div class="control-buttons">
+                        <button class="btn btn-primary" id="toggleSim">⏸️ Pause</button>
+                        <button class="btn btn-secondary" id="resetSim">🔄 Reset</button>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>📊 Statistiques</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item predator-stat">
+                            <div class="stat-value" id="predatorCount">0</div>
+                            <div class="stat-label">Chasseurs</div>
+                        </div>
+                        <div class="stat-item prey-stat">
+                            <div class="stat-value" id="preyCount">0</div>
+                            <div class="stat-label">Proies</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="generation">1</div>
+                            <div class="stat-label">Génération</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="equilibrium">0%</div>
+                            <div class="stat-label">Équilibre</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="evolution-panel">
+            <h3>🧬 Évolution des Traits</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                <div>
+                    <h4 style="color: #ff6b6b; margin-bottom: 15px;">🦅 Chasseurs</h4>
+                    <div class="evolution-trait predator-trait">
+                        <div class="trait-name">Vitesse de chasse</div>
+                        <div class="trait-bar">
+                            <div class="trait-fill" id="predatorSpeed" style="width: 50%"></div>
+                        </div>
+                    </div>
+                    <div class="evolution-trait predator-trait">
+                        <div class="trait-name">Vision (portée)</div>
+                        <div class="trait-bar">
+                            <div class="trait-fill" id="predatorVision" style="width: 50%"></div>
+                        </div>
+                    </div>
+                    <div class="evolution-trait predator-trait">
+                        <div class="trait-name">Endurance</div>
+                        <div class="trait-bar">
+                            <div class="trait-fill" id="predatorEndurance" style="width: 50%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="color: #4ecdc4; margin-bottom: 15px;">🐰 Proies</h4>
+                    <div class="evolution-trait prey-trait">
+                        <div class="trait-name">Vitesse d'évasion</div>
+                        <div class="trait-bar">
+                            <div class="trait-fill" id="preySpeed" style="width: 50%"></div>
+                        </div>
+                    </div>
+                    <div class="evolution-trait prey-trait">
+                        <div class="trait-name">Détection danger</div>
+                        <div class="trait-bar">
+                            <div class="trait-fill" id="preyDetection" style="width: 50%"></div>
+                        </div>
+                    </div>
+                    <div class="evolution-trait prey-trait">
+                        <div class="trait-name">Camouflage</div>
+                        <div class="trait-bar">
+                            <div class="trait-fill" id="preyCamouflage" style="width: 50%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-circle predator-color"></div>
+                <span>Chasseurs (Prédateurs)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-circle prey-color"></div>
+                <span>Proies</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-circle food-color"></div>
+                <span>Nourriture</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class EvolutionaryEcosystem {
+            constructor() {
+                this.canvas = document.getElementById('ecosystem');
+                this.ctx = this.canvas.getContext('2d');
+                this.setupCanvas();
+                
+                this.predators = [];
+                this.prey = [];
+                this.food = [];
+                
+                this.generation = 1;
+                this.time = 0;
+                this.isRunning = true;
+                this.speed = 2;
+                this.evolutionPressure = 5;
+                
+                // Traits évolutifs moyens
+                this.predatorTraits = {
+                    speed: 0.5,
+                    vision: 0.5,
+                    endurance: 0.5
+                };
+                
+                this.preyTraits = {
+                    speed: 0.5,
+                    detection: 0.5,
+                    camouflage: 0.5
+                };
+                
+                this.populationHistory = [];
+                this.initializePopulation();
+                this.setupControls();
+                this.gameLoop();
+            }
+            
+            setupCanvas() {
+                const rect = this.canvas.getBoundingClientRect();
+                this.canvas.width = rect.width;
+                this.canvas.height = rect.height;
+                this.width = this.canvas.width;
+                this.height = this.canvas.height;
+            }
+            
+            initializePopulation() {
+                this.predators = [];
+                this.prey = [];
+                this.food = [];
+                
+                // Créer les prédateurs
+                for (let i = 0; i < 8; i++) {
+                    this.predators.push(this.createPredator());
+                }
+                
+                // Créer les proies
+                for (let i = 0; i < 25; i++) {
+                    this.prey.push(this.createPrey());
+                }
+                
+                // Créer la nourriture
+                for (let i = 0; i < 50; i++) {
+                    this.spawnFood();
+                }
+            }
+            
+            createPredator() {
+                const variation = 0.2;
+                return {
+                    x: Math.random() * this.width,
+                    y: Math.random() * this.height,
+                    vx: 0,
+                    vy: 0,
+                    size: 8,
+                    energy: 100,
+                    age: 0,
+                    target: null,
+                    traits: {
+                        speed: Math.max(0.1, Math.min(1, this.predatorTraits.speed + (Math.random() - 0.5) * variation)),
+                        vision: Math.max(0.1, Math.min(1, this.predatorTraits.vision + (Math.random() - 0.5) * variation)),
+                        endurance: Math.max(0.1, Math.min(1, this.predatorTraits.endurance + (Math.random() - 0.5) * variation))
+                    },
+                    huntCooldown: 0,
+                    successfulHunts: 0
+                };
+            }
+            
+            createPrey() {
+                const variation = 0.2;
+                return {
+                    x: Math.random() * this.width,
+                    y: Math.random() * this.height,
+                    vx: 0,
+                    vy: 0,
+                    size: 6,
+                    energy: 100,
+                    age: 0,
+                    target: null,
+                    traits: {
+                        speed: Math.max(0.1, Math.min(1, this.preyTraits.speed + (Math.random() - 0.5) * variation)),
+                        detection: Math.max(0.1, Math.min(1, this.preyTraits.detection + (Math.random() - 0.5) * variation)),
+                        camouflage: Math.max(0.1, Math.min(1, this.preyTraits.camouflage + (Math.random() - 0.5) * variation))
+                    },
+                    fearLevel: 0,
+                    reproductionCooldown: 0
+                };
+            }
+            
+            spawnFood() {
+                this.food.push({
+                    x: Math.random() * this.width,
+                    y: Math.random() * this.height,
+                    size: 3,
+                    energy: 30
+                });
+            }
+            
+            updatePredators() {
+                for (let i = this.predators.length - 1; i >= 0; i--) {
+                    const predator = this.predators[i];
+                    predator.age++;
+                    predator.energy -= 0.3;
+                    predator.huntCooldown = Math.max(0, predator.huntCooldown - 1);
+                    
+                    // Chercher une proie
+                    if (!predator.target || predator.huntCooldown > 0) {
+                        const visionRange = 80 + predator.traits.vision * 120;
+                        let closestPrey = null;
+                        let closestDist = Infinity;
+                        
+                        for (const prey of this.prey) {
+                            const dist = this.distance(predator, prey);
+                            const camouflageEffect = 1 - (prey.traits.camouflage * 0.6);
+                            const detectionChance = visionRange * camouflageEffect;
+                            
+                            if (dist < detectionChance && dist < closestDist) {
+                                closestPrey = prey;
+                                closestDist = dist;
+                            }
+                        }
+                        
+                        predator.target = closestPrey;
+                    }
+                    
+                    // Poursuivre la proie
+                    if (predator.target) {
+                        const dx = predator.target.x - predator.x;
+                        const dy = predator.target.y - predator.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (dist > 0) {
+                            const speed = 1.5 + predator.traits.speed * 2;
+                            predator.vx = (dx / dist) * speed;
+                            predator.vy = (dy / dist) * speed;
+                            
+                            // Tentative de capture
+                            if (dist < predator.size + predator.target.size) {
+                                const preyIndex = this.prey.indexOf(predator.target);
+                                if (preyIndex !== -1) {
+                                    this.prey.splice(preyIndex, 1);
+                                    predator.energy += 80;
+                                    predator.successfulHunts++;
+                                    predator.huntCooldown = 30;
+                                    predator.target = null;
+                                }
+                            }
+                        }
+                    } else {
+                        // Mouvement aléatoire
+                        predator.vx += (Math.random() - 0.5) * 0.5;
+                        predator.vy += (Math.random() - 0.5) * 0.5;
+                        predator.vx *= 0.9;
+                        predator.vy *= 0.9;
+                    }
+                    
+                    // Appliquer le mouvement
+                    predator.x += predator.vx;
+                    predator.y += predator.vy;
+                    
+                    // Limites du canvas
+                    this.wrapPosition(predator);
+                    
+                    // Reproduction
+                    if (predator.energy > 150 && predator.successfulHunts > 2 && this.predators.length < 15) {
+                        this.reproducePredator(predator);
+                    }
+                    
+                    // Mort
+                    if (predator.energy <= 0 || predator.age > 2000) {
+                        this.predators.splice(i, 1);
+                    }
+                }
+            }
+            
+            updatePrey() {
+                for (let i = this.prey.length - 1; i >= 0; i--) {
+                    const prey = this.prey[i];
+                    prey.age++;
+                    prey.energy -= 0.2;
+                    prey.fearLevel = Math.max(0, prey.fearLevel - 0.02);
+                    prey.reproductionCooldown = Math.max(0, prey.reproductionCooldown - 1);
+                    
+                    // Détecter les prédateurs
+                    let dangerLevel = 0;
+                    let escapeVx = 0;
+                    let escapeVy = 0;
+                    
+                    const detectionRange = 60 + prey.traits.detection * 100;
+                    
+                    for (const predator of this.predators) {
+                        const dist = this.distance(prey, predator);
+                        if (dist < detectionRange) {
+                            const dangerIntensity = Math.max(0, 1 - dist / detectionRange);
+                            dangerLevel += dangerIntensity;
+                            
+                            const dx = prey.x - predator.x;
+                            const dy = prey.y - predator.y;
+                            const normalizedDist = Math.sqrt(dx * dx + dy * dy);
+                            
+                            if (normalizedDist > 0) {
+                                escapeVx += (dx / normalizedDist) * dangerIntensity;
+                                escapeVy += (dy / normalizedDist) * dangerIntensity;
+                            }
+                        }
+                    }
+                    
+                    prey.fearLevel = Math.min(1, prey.fearLevel + dangerLevel * 0.1);
+                    
+                    if (prey.fearLevel > 0.3) {
+                        // Comportement de fuite
+                        const speed = 1 + prey.traits.speed * 3 + prey.fearLevel;
+                        prey.vx = escapeVx * speed;
+                        prey.vy = escapeVy * speed;
+                    } else {
+                        // Chercher de la nourriture
+                        if (!prey.target) {
+                            let closestFood = null;
+                            let closestDist = Infinity;
+                            
+                            for (const food of this.food) {
+                                const dist = this.distance(prey, food);
+                                if (dist < 100 && dist < closestDist) {
+                                    closestFood = food;
+                                    closestDist = dist;
+                                }
+                            }
+                            
+                            prey.target = closestFood;
+                        }
+                        
+                        if (prey.target) {
+                            const dx = prey.target.x - prey.x;
+                            const dy = prey.target.y - prey.y;
+                            const dist = Math.sqrt(dx * dx + dy * dy);
+                            
+                            if (dist > 0) {
+                                const speed = 0.8;
+                                prey.vx = (dx / dist) * speed;
+                                prey.vy = (dy / dist) * speed;
+                                
+                                // Manger la nourriture
+                                if (dist < prey.size + prey.target.size) {
+                                    const foodIndex = this.food.indexOf(prey.target);
+                                    if (foodIndex !== -1) {
+                                        this.food.splice(foodIndex, 1);
+                                        prey.energy += 40;
+                                        prey.target = null;
+                                    }
+                                }
+                            }
+                        } else {
+                            // Mouvement aléatoire
+                            prey.vx += (Math.random() - 0.5) * 0.3;
+                            prey.vy += (Math.random() - 0.5) * 0.3;
+                            prey.vx *= 0.85;
+                            prey.vy *= 0.85;
+                        }
+                    }
+                    
+                    // Appliquer le mouvement
+                    prey.x += prey.vx;
+                    prey.y += prey.vy;
+                    
+                    // Limites du canvas
+                    this.wrapPosition(prey);
+                    
+                    // Reproduction
+                    if (prey.energy > 120 && prey.reproductionCooldown === 0 && this.prey.length < 60) {
+                        this.reproducePrey(prey);
+                    }
+                    
+                    // Mort
+                    if (prey.energy <= 0 || prey.age > 1500) {
+                        this.prey.splice(i, 1);
+                    }
+                }
+            }
+            
+            reproducePredator(parent) {
+                if (this.predators.length >= 15) return;
+                
+                parent.energy -= 70;
+                const child = this.createPredator();
+                child.x = parent.x + (Math.random() - 0.5) * 40;
+                child.y = parent.y + (Math.random() - 0.5) * 40;
+                
+                // Héritage avec mutation
+                const mutationRate = 0.1 * this.evolutionPressure / 5;
+                child.traits.speed = this.mutate(parent.traits.speed, mutationRate);
+                child.traits.vision = this.mutate(parent.traits.vision, mutationRate);
+                child.traits.endurance = this.mutate(parent.traits.endurance, mutationRate);
+                
+                this.predators.push(child);
+            }
+            
+            reproducePrey(parent) {
+                if (this.prey.length >= 60) return;
+                
+                parent.energy -= 50;
+                parent.reproductionCooldown = 100;
+                
+                const child = this.createPrey();
+                child.x = parent.x + (Math.random() - 0.5) * 30;
+                child.y = parent.y + (Math.random() - 0.5) * 30;
+                
+                // Héritage avec mutation
+                const mutationRate = 0.1 * this.evolutionPressure / 5;
+                child.traits.speed = this.mutate(parent.traits.speed, mutationRate);
+                child.traits.detection = this.mutate(parent.traits.detection, mutationRate);
+                child.traits.camouflage = this.mutate(parent.traits.camouflage, mutationRate);
+                
+                this.prey.push(child);
+            }
+            
+            mutate(value, rate) {
+                const mutation = (Math.random() - 0.5) * rate * 2;
+                return Math.max(0.1, Math.min(1, value + mutation));
+            }
+            
+            updateFood() {
+                const foodDensity = parseInt(document.getElementById('foodDensity').value);
+                
+                // Générer nouvelle nourriture
+                if (this.food.length < foodDensity && Math.random() < 0.3) {
+                    this.spawnFood();
+                }
+            }
+            
+            updateEvolution() {
+                if (this.time % 200 === 0) {
+                    this.calculateAverageTraits();
+                    this.updateUI();
+                    
+                    if (this.time % 1000 === 0) {
+                        this.generation++;
+                    }
+                }
+            }
+            
+            calculateAverageTraits() {
+                if (this.predators.length > 0) {
+                    this.predatorTraits.speed = this.predators.reduce((sum, p) => sum + p.traits.speed, 0) / this.predators.length;
+                    this.predatorTraits.vision = this.predators.reduce((sum, p) => sum + p.traits.vision, 0) / this.predators.length;
+                    this.predatorTraits.endurance = this.predators.reduce((sum, p) => sum + p.traits.endurance, 0) / this.predators.length;
+                }
+                
+                if (this.prey.length > 0) {
+                    this.preyTraits.speed = this.prey.reduce((sum, p) => sum + p.traits.speed, 0) / this.prey.length;
+                    this.preyTraits.detection = this.prey.reduce((sum, p) => sum + p.traits.detection, 0) / this.prey.length;
+                    this.preyTraits.camouflage = this.prey.reduce((sum, p) => sum + p.traits.camouflage, 0) / this.prey.length;
+                }
+            }
+            
+            distance(a, b) {
+                const dx = a.x - b.x;
+                const dy = a.y - b.y;
+                return Math.sqrt(dx * dx + dy * dy);
+            }
+            
+            wrapPosition(entity) {
+                if (entity.x < 0) entity.x = this.width;
+                if (entity.x > this.width) entity.x = 0;
+                if (entity.y < 0) entity.y = this.height;
+                if (entity.y > this.height) entity.y = 0;
+            }
+            
+            render() {
+                this.ctx.fillStyle = '#0a0a0a';
+                this.ctx.fillRect(0, 0, this.width, this.height);
+                
+                // Dessiner la nourriture
+                this.ctx.fillStyle = '#ffd93d';
+                for (const food of this.food) {
+                    this.ctx.beginPath();
+                    this.ctx.arc(food.x, food.y, food.size, 0, Math.PI * 2);
+                    this.ctx.fill();
+                }
+                
+                // Dessiner les proies
+                for (const prey of this.prey) {
+                    const alpha = 1 - (prey.traits.camouflage * 0.4);
+                    this.ctx.fillStyle = `rgba(78, 205, 196, ${alpha})`;
+                    
+                    // Effet de peur
+                    if (prey.fearLevel > 0.3) {
+                        this.ctx.strokeStyle = '#ff6b6b';
+                        this.ctx.lineWidth = 2;
+                        this.ctx.beginPath();
+                        this.ctx.arc(prey.x, prey.y, prey.size + 3, 0, Math.PI * 2);
+                        this.ctx.stroke();
+                    }
+                    
+                    this.ctx.beginPath();
+                    this.ctx.arc(prey.x, prey.y, prey.size, 0, Math.PI * 2);
+                    this.ctx.fill();
+                    
+                    // Indicateur de vitesse
+                    const speedSize = prey.traits.speed * 3;
+                    this.ctx.fillStyle = `rgba(127, 221, 221, 0.6)`;
+                    this.ctx.fillRect(prey.x - speedSize/2, prey.y - prey.size - 8, speedSize, 2);
+                }
+                
+                // Dessiner les prédateurs
+                for (const predator of this.predators) {
+                    this.ctx.fillStyle = '#ff6b6b';
+                    
+                    // Effet de chasse
+                    if (predator.target) {
+                        this.ctx.strokeStyle = 'rgba(255, 107, 107, 0.3)';
+                        this.ctx.lineWidth = 1;
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(predator.x, predator.y);
+                        this.ctx.lineTo(predator.target.x, predator.target.y);
+                        this.ctx.stroke();
+                        
+                        // Cercle de vision
+                        const visionRange = 80 + predator.traits.vision * 120;
+                        this.ctx.strokeStyle = 'rgba(255, 107, 107, 0.1)';
+                        this.ctx.lineWidth = 1;
+                        this.ctx.beginPath();
+                        this.ctx.arc(predator.x, predator.y, visionRange, 0, Math.PI * 2);
+                        this.ctx.stroke();
+                    }
+                    
+                    this.ctx.beginPath();
+                    this.ctx.arc(predator.x, predator.y, predator.size, 0, Math.PI * 2);
+                    this.ctx.fill();
+                    
+                    // Indicateur de vitesse
+                    const speedSize = predator.traits.speed * 4;
+                    this.ctx.fillStyle = `rgba(255, 142, 142, 0.8)`;
+                    this.ctx.fillRect(predator.x - speedSize/2, predator.y - predator.size - 10, speedSize, 2);
+                    
+                    // Indicateur d'énergie
+                    const energyPercent = predator.energy / 100;
+                    this.ctx.fillStyle = energyPercent > 0.5 ? '#4ecdc4' : '#ff6b6b';
+                    this.ctx.fillRect(predator.x - 8, predator.y + predator.size + 5, 16 * energyPercent, 2);
+                }
+            }
+            
+            updateUI() {
+                document.getElementById('predatorCount').textContent = this.predators.length;
+                document.getElementById('preyCount').textContent = this.prey.length;
+                document.getElementById('generation').textContent = this.generation;
+                
+                // Calcul de l'équilibre
+                const total = this.predators.length + this.prey.length;
+                const idealRatio = 0.2; // 20% de prédateurs, 80% de proies
+                const currentRatio = total > 0 ? this.predators.length / total : 0;
+                const equilibrium = Math.max(0, 100 - Math.abs(currentRatio - idealRatio) * 500);
+                document.getElementById('equilibrium').textContent = Math.round(equilibrium) + '%';
+                
+                // Mettre à jour les barres d'évolution
+                document.getElementById('predatorSpeed').style.width = (this.predatorTraits.speed * 100) + '%';
+                document.getElementById('predatorVision').style.width = (this.predatorTraits.vision * 100) + '%';
+                document.getElementById('predatorEndurance').style.width = (this.predatorTraits.endurance * 100) + '%';
+                
+                document.getElementById('preySpeed').style.width = (this.preyTraits.speed * 100) + '%';
+                document.getElementById('preyDetection').style.width = (this.preyTraits.detection * 100) + '%';
+                document.getElementById('preyCamouflage').style.width = (this.preyTraits.camouflage * 100) + '%';
+            }
+            
+            setupControls() {
+                const speedSlider = document.getElementById('speed');
+                const evolutionSlider = document.getElementById('evolutionPressure');
+                const foodSlider = document.getElementById('foodDensity');
+                const toggleBtn = document.getElementById('toggleSim');
+                const resetBtn = document.getElementById('resetSim');
+                
+                speedSlider.addEventListener('input', (e) => {
+                    this.speed = parseInt(e.target.value);
+                    document.getElementById('speedValue').textContent = this.speed + 'x';
+                });
+                
+                evolutionSlider.addEventListener('input', (e) => {
+                    this.evolutionPressure = parseInt(e.target.value);
+                    document.getElementById('evolutionValue').textContent = this.evolutionPressure;
+                });
+                
+                foodSlider.addEventListener('input', (e) => {
+                    document.getElementById('foodValue').textContent = e.target.value;
+                });
+                
+                toggleBtn.addEventListener('click', () => {
+                    this.isRunning = !this.isRunning;
+                    toggleBtn.innerHTML = this.isRunning ? '⏸️ Pause' : '▶️ Play';
+                });
+                
+                resetBtn.addEventListener('click', () => {
+                    this.generation = 1;
+                    this.time = 0;
+                    this.predatorTraits = { speed: 0.5, vision: 0.5, endurance: 0.5 };
+                    this.preyTraits = { speed: 0.5, detection: 0.5, camouflage: 0.5 };
+                    this.initializePopulation();
+                    this.updateUI();
+                });
+                
+                // Redimensionnement du canvas
+                window.addEventListener('resize', () => {
+                    this.setupCanvas();
+                });
+            }
+            
+            checkExtinction() {
+                // Repeuplement d'urgence si une espèce disparaît
+                if (this.predators.length === 0 && this.time > 500) {
+                    for (let i = 0; i < 3; i++) {
+                        this.predators.push(this.createPredator());
+                    }
+                }
+                
+                if (this.prey.length === 0 && this.time > 500) {
+                    for (let i = 0; i < 10; i++) {
+                        this.prey.push(this.createPrey());
+                    }
+                }
+            }
+            
+            gameLoop() {
+                if (this.isRunning) {
+                    for (let i = 0; i < this.speed; i++) {
+                        this.updatePredators();
+                        this.updatePrey();
+                        this.updateFood();
+                        this.updateEvolution();
+                        this.checkExtinction();
+                        this.time++;
+                    }
+                    
+                    this.render();
+                    
+                    // Enregistrer l'historique des populations
+                    if (this.time % 50 === 0) {
+                        this.populationHistory.push({
+                            time: this.time,
+                            predators: this.predators.length,
+                            prey: this.prey.length
+                        });
+                        
+                        // Limiter l'historique
+                        if (this.populationHistory.length > 1000) {
+                            this.populationHistory.shift();
+                        }
+                    }
+                }
+                
+                requestAnimationFrame(() => this.gameLoop());
+            }
+        }
+        
+        // Initialiser la simulation
+        window.addEventListener('load', () => {
+            new EvolutionaryEcosystem();
+        });
+    </script>
+</body>
+</html>

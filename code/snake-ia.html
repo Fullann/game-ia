@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Snake avec IA</title>
+    <link rel="stylesheet" href="/snake-ia/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>🐍 Snake avec IA</h1>
+
+      <div class="controls">
+        <button onclick="startGame()">🎮 Jouer</button>
+        <button onclick="startAI()" class="ai-button">🤖 Démarrer l'IA</button>
+        <button onclick="pauseGame()" class="pause-button">⏸️ Pause</button>
+        <button onclick="resetGame()" class="reset-button">🔄 Reset</button>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <h3>Score</h3>
+          <p id="score">0</p>
+        </div>
+        <div class="stat">
+          <h3>Meilleur Score</h3>
+          <p id="highScore">0</p>
+        </div>
+        <div class="stat">
+          <h3>Longueur</h3>
+          <p id="length">1</p>
+        </div>
+        <div class="stat">
+          <h3>Vitesse</h3>
+          <p id="speed">1x</p>
+        </div>
+      </div>
+
+      <div class="game-container">
+        <canvas id="gameCanvas" width="600" height="600"></canvas>
+      </div>
+
+      <div class="ai-status" id="aiStatus">
+        🎮 Mode Manuel - Utilisez les flèches du clavier pour jouer
+      </div>
+
+      <div class="algorithm-info">
+        <h3>🤖 Algorithme d'IA Utilisé:</h3>
+        <p><strong>Algorithme A* avec Heuristiques Avancées</strong></p>
+        <ul>
+          <li>
+            <strong>Pathfinding A*:</strong> Trouve le chemin optimal vers la
+            nourriture
+          </li>
+          <li>
+            <strong>Évitement de collision:</strong> Prédit et évite les
+            collisions avec le corps
+          </li>
+          <li>
+            <strong>Optimisation d'espace:</strong> Maintient toujours un chemin
+            de retour sûr
+          </li>
+          <li>
+            <strong>Stratégie hamiltonienne:</strong> Suit un cycle hamiltonien
+            quand nécessaire
+          </li>
+          <li>
+            <strong>Analyse prédictive:</strong> Simule les mouvements futurs
+            pour éviter les pièges
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="game-over-overlay" id="gameOverOverlay">
+      <div class="game-over-content">
+        <h2>💀 GAME OVER</h2>
+        <p id="finalScore">Score Final: 0</p>
+        <button onclick="closeGameOver()" style="margin-top: 20px">
+          Continuer
+        </button>
+      </div>
+    </div>
+
+    <script src="/snake-ia/logique.js"></script>
+  </body>
+</html>

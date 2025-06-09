@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puissance 4 IA</title>
+    <link rel="stylesheet" href="/power4-ia/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🔴 Puissance 4 IA</h1>
+        <div class="subtitle">Connect 4 avec IA Minimax Alpha-Beta</div>
+        
+        <div class="game-controls">
+            <button id="resetBtn">🔄 Nouvelle Partie</button>
+            <div class="difficulty-selector">
+                <span>Difficulté:</span>
+                <button id="easy" class="difficulty">Facile</button>
+                <button id="medium" class="difficulty active">Moyen</button>
+                <button id="hard" class="difficulty">Difficile</button>
+                <button id="expert" class="difficulty">Expert</button>
+            </div>
+        </div>
+
+        <div class="status" id="status">🔴 À vous de jouer ! Choisissez une colonne</div>
+
+        <div class="game-board">
+            <div class="board-grid" id="board">
+                <!-- Les cellules seront générées par JavaScript -->
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value" id="playerWins">0</div>
+                <div class="stat-label">Vos Victoires</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="aiWins">0</div>
+                <div class="stat-label">Victoires IA</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="draws">0</div>
+                <div class="stat-label">Égalités</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="gamesPlayed">0</div>
+                <div class="stat-label">Parties</div>
+            </div>
+        </div>
+
+        <div class="ai-info">
+            <div>🧠 <strong>Algorithme Minimax avec élagage Alpha-Beta</strong></div>
+            <div class="depth-info">
+                <span>Profondeur d'analyse: <span id="currentDepth">5</span></span>
+                <span>Positions évaluées: <span id="nodesEvaluated">0</span></span>
+            </div>
+        </div>
+    </div>
+
+    <script src="/power4-ia/logique.js"></script>
+</body>
+</html>

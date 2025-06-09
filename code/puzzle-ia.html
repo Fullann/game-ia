@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résolveur de Puzzle IA</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/puzzle-ia/style.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="game-container">
+                    <div class="text-center mb-4">
+                        <h1 class="display-4 mb-3">
+                            <i class="fas fa-puzzle-piece text-primary me-3"></i>
+                            Résolveur de Puzzle IA
+                        </h1>
+                        <p class="lead">
+                            Découvrez les algorithmes A* et BFS en action pour résoudre automatiquement les puzzles !
+                        </p>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="puzzle-grid" id="puzzleGrid">
+                                <!-- Les tuiles seront générées par JavaScript -->
+                            </div>
+                            
+                            <div class="controls">
+                                <button class="btn btn-primary btn-game" onclick="shufflePuzzle()">
+                                    <i class="fas fa-random me-2"></i>Mélanger
+                                </button>
+                                <button class="btn btn-success btn-game" onclick="solvePuzzle('astar')">
+                                    <i class="fas fa-star me-2"></i>Résoudre A*
+                                </button>
+                                <button class="btn btn-warning btn-game" onclick="solvePuzzle('bfs')">
+                                    <i class="fas fa-search me-2"></i>Résoudre BFS
+                                </button>
+                                <button class="btn btn-danger btn-game" onclick="resetPuzzle()">
+                                    <i class="fas fa-redo me-2"></i>Reset
+                                </button>
+                            </div>
+
+                            <div class="difficulty-selector">
+                                <h5>Difficulté du mélange :</h5>
+                                <button class="difficulty-btn" data-moves="10" onclick="setDifficulty(10)">Facile</button>
+                                <button class="difficulty-btn active" data-moves="25" onclick="setDifficulty(25)">Moyen</button>
+                                <button class="difficulty-btn" data-moves="50" onclick="setDifficulty(50)">Difficile</button>
+                                <button class="difficulty-btn" data-moves="100" onclick="setDifficulty(100)">Expert</button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="stats-panel">
+                                <h4 class="text-center mb-3">
+                                    <i class="fas fa-chart-line me-2"></i>Statistiques
+                                </h4>
+                                
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="stat-item">
+                                            <div class="stat-value" id="movesCount">0</div>
+                                            <div class="stat-label">Mouvements</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="stat-item">
+                                            <div class="stat-value" id="nodesExplored">0</div>
+                                            <div class="stat-label">Nœuds explorés</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="stat-item">
+                                            <div class="stat-value" id="solutionLength">-</div>
+                                            <div class="stat-label">Longueur solution</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="stat-item">
+                                            <div class="stat-value" id="timeElapsed">0ms</div>
+                                            <div class="stat-label">Temps</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="algorithm-info" id="algorithmInfo">
+                                <h5><i class="fas fa-info-circle me-2"></i>Algorithme A*</h5>
+                                <p>L'algorithme A* utilise une heuristique (distance de Manhattan) pour trouver le chemin optimal plus efficacement que BFS.</p>
+                            </div>
+
+                            <div class="solving-animation" id="solvingAnimation" style="display: none;">
+                                <div class="spinner"></div>
+                                <p class="mt-2">Résolution en cours...</p>
+                            </div>
+
+                            <div class="solution-steps" id="solutionSteps" style="display: none;">
+                                <h6><i class="fas fa-list-ol me-2"></i>Étapes de la solution :</h6>
+                                <div id="stepsContainer"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/puzzle-ia/logique.js"></script>
+</body>
+</html>

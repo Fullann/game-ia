@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geometry Dash Clone</title>
+    <link rel="stylesheet" href="/geometry_dash-ia/style.css">
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas"></canvas>
+        
+        <div id="ui">
+            <div class="ui-panel">
+                <div class="score">Score: <span id="score">0</span></div>
+                <div class="score">Meilleur: <span id="bestScore">0</span></div>
+                <div style="font-size: 14px; margin-top: 5px;">
+                    Mode: <span id="gameMode">Joueur</span>
+                </div>
+            </div>
+            
+            <div class="ui-panel controls">
+                <button class="play-btn" id="playBtn">Jouer</button>
+                <button class="edit-btn" id="editBtn">Éditeur</button>
+                <button class="bot-btn" id="botBtn">Bot IA</button>
+                <div class="level-selector" id="levelSelector"></div>
+            </div>
+        </div>
+
+        <div class="editor-panel" id="editorPanel">
+            <h3>Éditeur de Niveau</h3>
+            <div>Cliquez sur le canvas pour placer des obstacles</div>
+            <div class="obstacle-btn selected" data-type="spike">⚠️ Pic</div>
+            <div class="obstacle-btn" data-type="block">⬛ Bloc</div>
+            <div class="obstacle-btn" data-type="platform">🟫 Plateforme</div>
+            <button id="clearLevel">Effacer Niveau</button>
+            <button id="saveLevel">Sauvegarder</button>
+            <button id="exitEditor">Quitter Éditeur</button>
+        </div>
+
+        <div id="gameOver">
+            <h2>Game Over!</h2>
+            <p>Score: <span id="finalScore">0</span></p>
+            <button onclick="restartGame()">Recommencer</button>
+        </div>
+
+        <div id="instructions">
+            <div><strong>ESPACE ou CLIC</strong> pour sauter | <strong>R</strong> pour recommencer</div>
+        </div>
+    </div>
+    <script src="/geometry_dash-ia/logique.js"></script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tic-Tac-Toe IA</title>
+    <link rel="stylesheet" href="/tic-tac-toe-ia/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>🎮 Tic-Tac-Toe IA</h1>
+      <div class="subtitle">
+        Morpion contre une IA imbattable utilisant l'algorithme Minimax
+      </div>
+
+      <div class="game-modes">
+        <button id="humanVsAi" class="active">👤 vs 🤖 Joueur vs IA</button>
+        <button id="aiVsAi">🤖 vs 🤖 IA vs IA</button>
+      </div>
+
+      <div class="status" id="status">À vous de jouer ! Vous êtes X</div>
+
+      <div class="game-board" id="board">
+        <div class="cell" data-index="0"></div>
+        <div class="cell" data-index="1"></div>
+        <div class="cell" data-index="2"></div>
+        <div class="cell" data-index="3"></div>
+        <div class="cell" data-index="4"></div>
+        <div class="cell" data-index="5"></div>
+        <div class="cell" data-index="6"></div>
+        <div class="cell" data-index="7"></div>
+        <div class="cell" data-index="8"></div>
+      </div>
+
+      <div class="controls">
+        <button id="resetBtn">🔄 Nouvelle Partie</button>
+        <button id="pauseBtn" style="display: none">⏸️ Pause</button>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-value" id="playerWins">0</div>
+          <div class="stat-label">Victoires Joueur</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="aiWins">0</div>
+          <div class="stat-label">Victoires IA</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="draws">0</div>
+          <div class="stat-label">Égalités</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="gamesPlayed">0</div>
+          <div class="stat-label">Parties Jouées</div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/tic-tac-toe-ia/logique.js"></script>
+  </body>
+</html>

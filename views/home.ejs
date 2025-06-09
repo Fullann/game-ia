@@ -1,0 +1,214 @@
+<div class="hero-section text-center">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-4">
+            <i class="fas fa-robot me-3"></i>
+            Collection de Jeux avec IA
+        </h1>
+        <p class="lead mb-4">
+            Découvrez une collection unique de jeux intégrant des algorithmes d'intelligence artificielle
+        </p>
+        <a href="#games" class="btn btn-light btn-lg me-3">
+            <i class="fas fa-play me-2"></i>
+            Explorer les Jeux IA
+        </a>
+        <a href="#genetique" class="btn btn-outline-light btn-lg">
+            <i class="fas fa-dna me-2"></i>
+            Algorithmes Génétiques
+        </a>
+    </div>
+</div>
+
+<div class="container my-5">
+    <!-- Section Jeux IA -->
+    <section id="games">
+        <h2 class="text-center mb-5">
+            <i class="fas fa-gamepad me-2"></i>
+            Nos Jeux IA
+        </h2>
+        
+        <div class="row g-4">
+            <% Object.entries(games).forEach(([key, game]) => { %>
+            <div class="col-lg-6 col-xl-4">
+                <div class="card game-card h-100 position-relative">
+                    <span class="badge bg-primary difficulty-badge">
+                        <%= game.difficulty %>
+                    </span>
+                    
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">
+                            <i class="fas fa-chess-knight me-2 text-primary"></i>
+                            <%= game.name %>
+                        </h5>
+                        
+                        <p class="card-text flex-grow-1">
+                            <%= game.description.substring(0, 120) %>...
+                        </p>
+                        
+                        <div class="tech-stack mb-3">
+                            <i class="fas fa-code me-1"></i>
+                            <strong>Technologies:</strong> <%= game.technology %>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <h6><i class="fas fa-star me-1"></i>Fonctionnalités:</h6>
+                            <% game.features.forEach(feature => { %>
+                                <span class="badge bg-secondary me-1 mb-1"><%= feature %></span>
+                            <% }); %>
+                        </div>
+                        
+                        <div class="mt-auto">
+                            <div class="d-grid gap-2">
+                                <a href="/game/<%= key %>" class="btn btn-primary">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    Voir les Détails
+                                </a>
+                                <div class="row g-2">
+                                    <div class="col">
+                                        <a href="/play/<%= key %>" class="btn btn-success btn-sm w-100">
+                                            <i class="fas fa-play me-1"></i>
+                                            Jouer
+                                        </a>
+                                    </div>
+                                    <div class="col">
+                                        <a href="<%= game.youtubeUrl %>" target="_blank" class="btn btn-danger btn-sm w-100">
+                                            <i class="fab fa-youtube me-1"></i>
+                                            Vidéo
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% }); %>
+        </div>
+    </section>
+
+    <!-- Section Algorithmes Génétiques -->
+    <section id="genetique" class="my-5">
+        <h2 class="text-center mb-5">
+            <i class="fas fa-dna me-2"></i>
+            Jeux avec Algorithmes Génétiques
+        </h2>
+        
+        <div class="row g-4">
+            <% Object.entries(genetique).forEach(([key, game]) => { %>
+            <div class="col-lg-6 col-xl-4">
+                <div class="card game-card h-100 position-relative border-success">
+                    <span class="badge bg-success difficulty-badge">
+                        <%= game.difficulty %>
+                    </span>
+                    
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">
+                            <i class="fas fa-dna me-2 text-success"></i>
+                            <%= game.name %>
+                        </h5>
+                        
+                        <p class="card-text flex-grow-1">
+                            <%= game.description.substring(0, 120) %>...
+                        </p>
+                        
+                        <div class="tech-stack mb-3">
+                            <i class="fas fa-code me-1"></i>
+                            <strong>Technologies:</strong> <%= game.technology %>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <h6><i class="fas fa-star me-1"></i>Fonctionnalités:</h6>
+                            <% game.features.forEach(feature => { %>
+                                <span class="badge bg-success me-1 mb-1"><%= feature %></span>
+                            <% }); %>
+                        </div>
+                        
+                        <div class="mt-auto">
+                            <div class="d-grid gap-2">
+                                <a href="/game/<%= key %>" class="btn btn-success">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    Voir les Détails
+                                </a>
+                                <div class="row g-2">
+                                    <div class="col">
+                                        <a href="/play/<%= key %>" class="btn btn-outline-success btn-sm w-100">
+                                            <i class="fas fa-play me-1"></i>
+                                            Jouer
+                                        </a>
+                                    </div>
+                                    <div class="col">
+                                        <a href="<%= game.youtubeUrl %>" target="_blank" class="btn btn-danger btn-sm w-100">
+                                            <i class="fab fa-youtube me-1"></i>
+                                            Vidéo
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% }); %>
+        </div>
+    </section>
+
+    <!-- Section Features -->
+    <section class="my-5 py-5 bg-light rounded">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-4 mb-4">
+                    <div class="feature-icon bg-primary text-white">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h4>Intelligence Artificielle</h4>
+                    <p>Chaque jeu intègre des algorithmes d'IA avancés pour une expérience unique et éducative.</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-icon bg-success text-white">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h4>Code Open Source</h4>
+                    <p>Explorez le code source et apprenez comment l'IA fonctionne dans chaque jeu.</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-icon bg-warning text-white">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h4>Éducatif</h4>
+                    <p>Parfait pour apprendre les concepts d'IA de manière ludique et interactive.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Statistiques -->
+    <section class="my-5">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <div class="card border-0 bg-primary text-white">
+                        <div class="card-body">
+                            <h2 class="card-title"><%= Object.keys(games).length %></h2>
+                            <p class="card-text">Jeux avec IA</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 bg-success text-white">
+                        <div class="card-body">
+                            <h2 class="card-title"><%= Object.keys(genetique).length %></h2>
+                            <p class="card-text">Algorithmes Génétiques</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 bg-info text-white">
+                        <div class="card-body">
+                            <h2 class="card-title"><%= Object.keys(games).length + Object.keys(genetique).length %></h2>
+                            <p class="card-text">Total de Jeux</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

@@ -1,0 +1,80 @@
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white text-center">
+                    <h1 class="card-title mb-0">
+                        <i class="fas fa-gamepad me-2"></i>
+                        <%= gameInfo.name %>
+                    </h1>
+                    <span class="badge bg-light text-dark mt-2">
+                        Difficulté: <%= gameInfo.difficulty %>
+                    </span>
+                </div>
+                
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-8">
+                            <h3><i class="fas fa-info-circle me-2"></i>Description</h3>
+                            <p class="lead"><%= gameInfo.description %></p>
+                            
+                            <h4><i class="fas fa-cogs me-2"></i>Technologies Utilisées</h4>
+                            <p class="text-muted mb-3"><%= gameInfo.technology %></p>
+                            
+                            <h4><i class="fas fa-star me-2"></i>Fonctionnalités</h4>
+                            <ul class="list-group list-group-flush mb-4">
+                                <% gameInfo.features.forEach(feature => { %>
+                                    <li class="list-group-item">
+                                        <i class="fas fa-check text-success me-2"></i>
+                                        <%= feature %>
+                                    </li>
+                                <% }); %>
+                            </ul>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card bg-light">
+                                <div class="card-body text-center">
+                                    <h5>Actions Rapides</h5>
+                                    
+                                    <% if (gameExists) { %>
+                                        <a href="/play/<%= gameName %>" class="btn btn-success btn-lg d-block mb-3">
+                                            <i class="fas fa-play me-2"></i>
+                                            Jouer Maintenant
+                                        </a>
+                                    <% } else { %>
+                                        <div class="alert alert-warning">
+                                            <i class="fas fa-exclamation-triangle"></i>
+                                            Jeu en cours de développement
+                                        </div>
+                                    <% } %>
+                                    
+                                    <a href="<%= gameInfo.youtubeUrl %>" target="_blank" class="btn btn-danger d-block mb-3">
+                                        <i class="fab fa-youtube me-2"></i>
+                                        Voir la Démonstration
+                                    </a>
+                                    
+                                    <a href="/" class="btn btn-outline-secondary d-block">
+                                        <i class="fas fa-arrow-left me-2"></i>
+                                        Retour à l'Accueil
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <% if (gameExists) { %>
+                        <div class="alert alert-info">
+                            <h5><i class="fas fa-lightbulb me-2"></i>Aperçu du Jeu</h5>
+                            <p>Cliquez sur "Jouer Maintenant" pour accéder directement au jeu, ou utilisez le lien ci-dessous :</p>
+                            <a href="<%= gameUrl %>" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-external-link-alt me-1"></i>
+                                Ouvrir dans un nouvel onglet
+                            </a>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

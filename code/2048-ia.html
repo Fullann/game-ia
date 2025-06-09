@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2048 - Jeu avec IA</title>
+    <link rel="stylesheet" href="/2048-ia/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>2048</h1>
+      <div class="game-info">
+        <div class="score-container">
+          <div class="score-label">Score</div>
+          <div class="score" id="score">0</div>
+        </div>
+        <div class="best-container">
+          <div class="best-label">Meilleur</div>
+          <div class="best" id="best">0</div>
+        </div>
+      </div>
+
+      <div class="status" id="status">
+        Utilisez les flèches ou WASD pour jouer
+      </div>
+
+      <div class="ai-stats" id="ai-stats" style="display: none">
+        <div>Profondeur d'analyse: <span id="ai-depth">4</span></div>
+        <div>Positions évaluées: <span id="positions-evaluated">0</span></div>
+        <div>Temps de calcul: <span id="calculation-time">0</span>ms</div>
+      </div>
+
+      <div class="game-board" id="board">
+        <div class="game-overlay" id="overlay">
+          <div class="overlay-content">
+            <div class="overlay-title" id="overlay-title">Game Over</div>
+            <div class="overlay-message" id="overlay-message">
+              Aucun mouvement possible!
+            </div>
+            <button onclick="resetGame()">Nouvelle Partie</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button onclick="resetGame()">🔄 Nouvelle partie</button>
+        <button onclick="undoMove()" id="undo-btn" disabled>↶ Annuler</button>
+        <button onclick="startAI()" id="ai-btn" class="ai-button">
+          🤖 Mode IA
+        </button>
+        <button
+          onclick="stopAI()"
+          id="stop-ai-btn"
+          class="stop-ai-button"
+          disabled
+        >
+          ⏹ Arrêter IA
+        </button>
+      </div>
+
+      <div class="instructions">
+        <strong>Comment jouer:</strong><br />
+        Utilisez les touches fléchées ou WASD pour déplacer les tuiles.<br />
+        Combinez les tuiles identiques pour créer des nombres plus grands.<br />
+        Atteignez la tuile 2048 pour gagner!
+      </div>
+    </div>
+    <script src="/2048-ia/logique.js"></script>
+  </body>
+</html>
