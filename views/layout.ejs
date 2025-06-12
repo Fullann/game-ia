@@ -3,118 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title || 'Collection de Jeux IA' %></title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>Collection de Jeux IA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Intégration de Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Police Google personnalisée -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        .game-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            height: 100%;
-        }
-        .game-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-        .difficulty-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-        }
-        .tech-stack {
-            font-size: 0.85em;
-            color: #666;
-        }
-        .hero-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 80px 0;
-        }
-        .feature-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 15px;
-        }
-        .navbar-brand {
-            font-weight: bold;
-        }
-        .nav-link:hover {
-            color: #667eea !important;
-        }
-        footer {
-            margin-top: auto;
-        }
         body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
         }
         main {
             flex: 1;
         }
+        /* Animation pour le menu */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .nav-item {
+            animation: fadeIn 0.5s ease forwards;
+        }
+        .nav-item:nth-child(1) { animation-delay: 0.1s; }
+        .nav-item:nth-child(2) { animation-delay: 0.2s; }
+        .nav-item:nth-child(3) { animation-delay: 0.3s; }
+        .nav-item:nth-child(4) { animation-delay: 0.4s; }
     </style>
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                <i class="fas fa-gamepad me-2"></i>
-                Jeux IA Collection
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">
-                            <i class="fas fa-home me-1"></i>
-                            Accueil
+<body class="bg-gray-50">
+    <!-- Navbar modernisée -->
+    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo et marque -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="/" class="flex items-center space-x-2">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-r from-purple-600 to-blue-500 flex items-center justify-center">
+                            <i class="fas fa-gamepad text-white text-sm"></i>
+                        </div>
+                        <span class="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
+                            Jeux IA Collection
+                        </span>
+                    </a>
+                </div>
+                
+                <!-- Menu pour desktop -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-center space-x-8">
+                        <a href="/" class="group text-gray-700 hover:text-purple-600 px-1 py-2 rounded-md font-medium transition-all duration-300">
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-home text-purple-500 group-hover:text-purple-600 transition-all duration-300"></i>
+                                <span>Accueil</span>
+                            </div>
+                            <div class="h-0.5 bg-purple-600 w-0 group-hover:w-full transition-all duration-300 mt-1"></div>
                         </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/#games">
-                            <i class="fas fa-gamepad me-1"></i>
-                            Jeux IA
+                        
+                        <a href="/#games" class="group text-gray-700 hover:text-purple-600 px-1 py-2 rounded-md font-medium transition-all duration-300">
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-gamepad text-blue-500 group-hover:text-blue-600 transition-all duration-300"></i>
+                                <span>Jeux IA</span>
+                            </div>
+                            <div class="h-0.5 bg-blue-600 w-0 group-hover:w-full transition-all duration-300 mt-1"></div>
                         </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/genetique">
-                            <i class="fas fa-dna me-1"></i>
-                            Génétique
+                        
+                        
+                        <a href="/api/games" class="group text-gray-700 hover:text-purple-600 px-1 py-2 rounded-md font-medium transition-all duration-300">
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-code text-orange-500 group-hover:text-orange-600 transition-all duration-300"></i>
+                                <span>API</span>
+                            </div>
+                            <div class="h-0.5 bg-orange-600 w-0 group-hover:w-full transition-all duration-300 mt-1"></div>
                         </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/api/games/all">
-                            <i class="fas fa-code me-1"></i>
-                            API
-                        </a>
-                    </li>
-                </ul>
+                    </div>
+                </div>
+                
+                <!-- Bouton mobile -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-purple-600 focus:outline-none transition duration-150 ease-in-out">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Menu mobile -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg rounded-b-lg">
+            <div class="px-2 pt-2 pb-3 sm:px-3 space-y-1">
+                <a href="/" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600 transition duration-150 ease-in-out">
+                    <i class="fas fa-home mr-2"></i> Accueil
+                </a>
+                <a href="/#games" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-blue-600 transition duration-150 ease-in-out">
+                    <i class="fas fa-gamepad mr-2"></i> Jeux IA
+                </a>
+                <a href="/genetique" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-green-600 transition duration-150 ease-in-out">
+                    <i class="fas fa-dna mr-2"></i> Génétique
+                </a>
+                <a href="/api/games/all" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-orange-600 transition duration-150 ease-in-out">
+                    <i class="fas fa-code mr-2"></i> API
+                </a>
             </div>
         </div>
     </nav>
-
-    <main>
+    
+    <!-- Espace pour compenser la navbar fixe -->
+    <div class="h-16"></div>
+    
+    <main class="flex-1 container mx-auto px-4">
+        <!-- Contenu principal -->
         <%- body %>
     </main>
-
-    <footer class="bg-dark text-light py-4 mt-5">
-        <div class="container text-center">
-            <div class="row">
-                <div class="col-md-6">
-                    <p class="mb-0">&copy; 2024 Collection de Jeux IA.</p>
+    
+    <!-- Footer modernisé -->
+    <footer class="bg-gradient-to-r from-gray-900 to-gray-800 text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-sm md:text-base text-gray-300">
+                        &copy; 2024 Collection de Jeux IA. Tous droits réservés.
+                    </p>
                 </div>
-                <div class="col-md-6">
-                    <p class="mb-0">Développé avec passion pour l'intelligence artificielle.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                        <i class="fab fa-github text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                        <i class="fab fa-linkedin text-xl"></i>
+                    </a>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <p class="text-sm md:text-base text-gray-400 font-light italic">
+                        Développé avec <span class="text-red-500">❤</span> pour l'IA
+                    </p>
                 </div>
             </div>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Gestion du menu mobile
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+            
+            // Changer l'icône du bouton
+            const icon = this.querySelector('i');
+            if (menu.classList.contains('hidden')) {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            }
+        });
+        
+        // Fermer le menu mobile quand on clique à l'extérieur
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('mobile-menu');
+            const button = document.getElementById('mobile-menu-button');
+            
+            if (!menu.contains(event.target) && !button.contains(event.target) && !menu.classList.contains('hidden')) {
+                menu.classList.add('hidden');
+                button.querySelector('i').classList.remove('fa-times');
+                button.querySelector('i').classList.add('fa-bars');
+            }
+        });
+    </script>
 </body>
 </html>

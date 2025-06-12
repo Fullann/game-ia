@@ -2,15 +2,15 @@ const express = require("express");
 const path = require("path");
 const fs = require("fs");
 const expressLayouts = require("express-ejs-layouts");
+
 const app = express();
 const PORT = 3000;
 
-// Configuration des jeux avec leurs métadonnées
-const gamesConfigIA = {
-  "snake-ia": {
+const allGames = [
+  {
+    key: "snake-ia",
     name: "Snake avec IA",
-    description:
-      "Un jeu de Snake classique avec une IA qui apprend à jouer grâce à un algorithme de reinforcement learning. L'IA utilise un réseau de neurones simple pour prendre des décisions basées sur l'état du jeu.",
+    description: "Un jeu de Snake classique avec une IA qui apprend à jouer grâce à un algorithme de reinforcement learning.",
     technology: "JavaScript, HTML5 Canvas, Algorithme génétique",
     youtubeUrl: "https://www.youtube.com/watch?v=example1",
     difficulty: "Intermédiaire",
@@ -19,11 +19,12 @@ const gamesConfigIA = {
       "Apprentissage par renforcement",
       "Visualisation en temps réel",
     ],
+    categorie: "ia-apprend",
   },
-  "2048-ia": {
+  {
+    key: "2048-ia",
     name: "2048 avec IA",
-    description:
-      "Une version intelligente du jeu 2048 avec une IA utilisant l'algorithme expectimax pour optimiser les mouvements et atteindre des scores élevés.",
+    description: "Une version intelligente du jeu 2048 avec une IA utilisant l'algorithme expectimax pour optimiser les mouvements.",
     technology: "JavaScript, Algorithme Expectimax, Évaluation heuristique",
     youtubeUrl: "https://www.youtube.com/watch?v=example2",
     difficulty: "Avancé",
@@ -32,11 +33,12 @@ const gamesConfigIA = {
       "Optimisation des mouvements",
       "Stratégie avancée",
     ],
+    categorie: "solo-optimisable",
   },
-  "geometry_dash-ia": {
+  {
+    key: "geometry_dash-ia",
     name: "Geometry Dash avec IA",
-    description:
-      "Un clone de Geometry Dash où l'IA apprend à naviguer à travers les obstacles en utilisant des réseaux de neurones et l'apprentissage par renforcement.",
+    description: "Un clone de Geometry Dash où l'IA apprend à naviguer à travers les obstacles en utilisant des réseaux de neurones.",
     technology: "JavaScript, Réseaux de neurones, Machine Learning",
     youtubeUrl: "https://www.youtube.com/watch?v=example3",
     difficulty: "Avancé",
@@ -45,20 +47,22 @@ const gamesConfigIA = {
       "Apprentissage automatique",
       "Navigation intelligente",
     ],
+    categorie: "ia-apprend",
   },
-  "packman-ia": {
+  {
+    key: "packman-ia",
     name: "Pacman avec IA",
-    description:
-      "Jeu Pacman avec une IA sophistiquée pour les fantômes utilisant des algorithmes de pathfinding et de prise de décision stratégique.",
+    description: "Jeu Pacman avec une IA sophistiquée pour les fantômes utilisant des algorithmes de pathfinding et de prise de décision stratégique.",
     technology: "JavaScript, Algorithme A*, Comportement IA",
     youtubeUrl: "https://www.youtube.com/watch?v=example4",
     difficulty: "Intermédiaire",
     features: ["Pathfinding A*", "IA comportementale", "Stratégie adaptive"],
+    categorie: "solo-optimisable",
   },
-  "solitaire-ia": {
+  {
+    key: "solitaire-ia",
     name: "Solitaire avec IA",
-    description:
-      "Solitaire automatisé avec une IA capable de résoudre les parties en analysant les configurations de cartes et en optimisant les mouvements.",
+    description: "Solitaire automatisé avec une IA capable de résoudre les parties en analysant les configurations de cartes.",
     technology: "JavaScript, Algorithmes de recherche, Optimisation",
     youtubeUrl: "https://www.youtube.com/watch?v=example5",
     difficulty: "Intermédiaire",
@@ -67,11 +71,12 @@ const gamesConfigIA = {
       "Analyse de configurations",
       "Optimisation des mouvements",
     ],
+    categorie: "solo-optimisable",
   },
-  "tetris-ia": {
+  {
+    key: "tetris-ia",
     name: "Tetris avec IA",
-    description:
-      "Tetris intelligent avec une IA qui utilise des algorithmes génétiques pour optimiser le placement des pièces et maximiser le score.",
+    description: "Tetris intelligent avec une IA qui utilise des algorithmes génétiques pour optimiser le placement des pièces.",
     technology: "JavaScript, Algorithmes génétiques, Optimisation",
     youtubeUrl: "https://www.youtube.com/watch?v=example6",
     difficulty: "Avancé",
@@ -80,29 +85,32 @@ const gamesConfigIA = {
       "Optimisation placement",
       "Score maximal",
     ],
+    categorie: "solo-optimisable",
   },
-  "puzzle-ia": {
+  {
+    key: "puzzle-ia",
     name: "Résolveur de Puzzle",
-    description:
-      "Un solveur automatique de puzzles utilisant des algorithmes de recherche comme A* et BFS. Capable de résoudre différents types de puzzles en trouvant le chemin optimal.",
+    description: "Un solveur automatique de puzzles utilisant des algorithmes de recherche comme A* et BFS.",
     technology: "JavaScript, Algorithme A*, Recherche en largeur",
     youtubeUrl: "https://www.youtube.com/watch?v=example7",
     difficulty: "Intermédiaire",
     features: ["Algorithme A*", "Recherche BFS/DFS", "Visualisation du chemin"],
+    categorie: "solo-optimisable",
   },
-  "tic-tac-toe-ia": {
+  {
+    key: "tic-tac-toe-ia",
     name: "Tic-Tac-Toe IA",
-    description:
-      "Morpion contre une IA imbattable utilisant l'algorithme Minimax. L'IA calcule tous les coups possibles pour ne jamais perdre.",
+    description: "Morpion contre une IA imbattable utilisant l'algorithme Minimax.",
     technology: "JavaScript, Algorithme Minimax",
     youtubeUrl: "https://www.youtube.com/watch?v=example8",
     difficulty: "Débutant",
     features: ["IA imbattable", "Interface intuitive", "Algorithme Minimax"],
+    categorie: "contre-ia",
   },
-  "power4-ia": {
+  {
+    key: "power4-ia",
     name: "Puissance 4 IA",
-    description:
-      "Puissance 4 avec une IA stratégique utilisant l'algorithme Minimax avec élagage alpha-beta pour des décisions optimales.",
+    description: "Puissance 4 avec une IA stratégique utilisant l'algorithme Minimax avec élagage alpha-beta.",
     technology: "JavaScript, Algorithme Minimax, Alpha-Beta",
     youtubeUrl: "https://www.youtube.com/watch?v=example9",
     difficulty: "Intermédiaire",
@@ -111,14 +119,13 @@ const gamesConfigIA = {
       "Stratégie optimale",
       "Interface moderne",
     ],
+    categorie: "contre-ia",
   },
-};
-
-const gamesConfigGenetique = {
-  flappybirdgenetique: {
+  // Jeux génétiques (catégorie : ia-apprend)
+  {
+    key: "flappybirdgenetique",
     name: "Flappy Bird avec algorithme génétique",
-    description:
-      "Flappy Bird où des oiseaux virtuels apprennent à voler en utilisant des algorithmes génétiques. Observez l'évolution des générations pour améliorer les performances.",
+    description: "Flappy Bird où des oiseaux virtuels apprennent à voler en utilisant des algorithmes génétiques.",
     technology: "JavaScript, HTML5 Canvas, Algorithmes génétiques",
     youtubeUrl: "https://www.youtube.com/watch?v=example10",
     difficulty: "Avancé",
@@ -127,50 +134,66 @@ const gamesConfigGenetique = {
       "Évolution des générations",
       "Visualisation de l'apprentissage",
     ],
+    categorie: "ia-apprend",
   },
-  pongIAtournament: {
+  {
+    key: "pongIAtournament",
     name: "Pong IA Tournament",
-    description:
-      "Flappy Bird où des oiseaux virtuels apprennent à voler en utilisant des algorithmes génétiques. Observez l'évolution des générations pour améliorer les performances.",
+    description: "Tournoi de Pong où les raquettes apprennent à jouer en utilisant des algorithmes génétiques.",
     technology: "JavaScript, HTML5 Canvas, Algorithmes génétiques",
     youtubeUrl: "https://www.youtube.com/watch?v=example10",
     difficulty: "Avancé",
     features: [
       "Raquettes qui apprennent à jouer au Pong",
       "Tournoi évolutif avec brackets",
-      "Styles de jeu émergents (défensif, agressif, imprévisible)",
+      "Styles de jeu émergents",
       "Analyse des stratégies gagnantes",
     ],
+    categorie: "ia-apprend",
   },
-  chasseursvsproies: {
+  {
+    key: "chasseursvsproies",
     name: "Chasseurs vs Proies",
-    description:
-      "Flappy Bird où des oiseaux virtuels apprennent à voler en utilisant des algorithmes génétiques. Observez l'évolution des générations pour améliorer les performances.",
+    description: "Simulation évolutive où des chasseurs et des proies apprennent et s'adaptent via des algorithmes génétiques.",
     technology: "JavaScript, HTML5 Canvas, Algorithmes génétiques",
     youtubeUrl: "https://www.youtube.com/watch?v=example10",
     difficulty: "Avancé",
     features: [
-      "Raquettes qui apprennent à jouer au Pong",
-      "Tournoi évolutif avec brackets",
-      "Styles de jeu émergents (défensif, agressif, imprévisible)",
-      "Analyse des stratégies gagnantes",
+      "Coévolution",
+      "Stratégies émergentes",
+      "Visualisation de l'adaptation",
     ],
+    categorie: "ia-apprend",
   },
-  egoisme: {
+  {
+    key: "egoisme",
     name: "Égoïsme",
-    description:
-      "Flappy Bird où des oiseaux virtuels apprennent à voler en utilisant des algorithmes génétiques. Observez l'évolution des générations pour améliorer les performances.",
+    description: "Simulation de comportements égoïstes et coopératifs dans un environnement évolutif.",
     technology: "JavaScript, HTML5 Canvas, Algorithmes génétiques",
     youtubeUrl: "https://www.youtube.com/watch?v=example10",
     difficulty: "Avancé",
     features: [
-      "Raquettes qui apprennent à jouer au Pong",
-      "Tournoi évolutif avec brackets",
-      "Styles de jeu émergents (défensif, agressif, imprévisible)",
-      "Analyse des stratégies gagnantes",
+      "Simulation sociale",
+      "Évolution des stratégies",
+      "Observation des comportements",
     ],
+    categorie: "ia-apprend",
   },
-};
+  {
+    key: "tictactoe_learn",
+    name: "Tic-Tac-Toe IA Apprenante",
+    description: "Version évolutive du morpion où l'IA apprend de ses erreurs et s'améliore génération après génération.",
+    technology: "JavaScript, HTML5 Canvas, Algorithmes génétiques",
+    youtubeUrl: "https://www.youtube.com/watch?v=example10",
+    difficulty: "Avancé",
+    features: [
+      "Apprentissage automatique",
+      "Évolution des stratégies",
+      "Visualisation de la progression",
+    ],
+    categorie: "ia-apprend",
+  }
+];
 
 // Middleware
 app.use(express.static("public"));
@@ -180,29 +203,27 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.set("layout", "layout");
 
-// Route principale - Page d'accueil
+// Page d'accueil - Home
 app.get("/", (req, res) => {
   res.render("home", {
-    games: gamesConfigIA,
-    title: "Accueil - Collection de Jeux IA",
-    genetique: gamesConfigGenetique,
+    games: allGames,
+    title: "Accueil - Collection de Jeux IA"
   });
 });
 
-// Route pour afficher les détails d'un jeu
+// Détail d'un jeu
 app.get("/game/:gameName", (req, res) => {
   const gameName = req.params.gameName;
-  const gameInfo = gamesConfigIA[gameName] || gamesConfigGenetique[gameName];
+  const gameInfo = allGames.find(g => g.key === gameName);
 
   if (!gameInfo) {
     return res.status(404).render("error", {
       message: "Jeu non trouvé",
       error: `Le jeu "${gameName}" n'existe pas.`,
-      title: "Erreur 404",
+      title: "Erreur 404"
     });
   }
 
-  // Vérifier si le fichier HTML du jeu existe
   const gameFilePath = path.join(__dirname, "code", `${gameName}.html`);
   const gameExists = fs.existsSync(gameFilePath);
 
@@ -211,87 +232,73 @@ app.get("/game/:gameName", (req, res) => {
     gameInfo,
     gameExists,
     gameUrl: `/code/${gameName}.html`,
-    title: `${gameInfo.name} - Détails du Jeu`,
+    title: `${gameInfo.name} - Détails du Jeu`
   });
 });
 
-// Route pour jouer directement (iframe ou redirection)
+// Jouer à un jeu (iframe ou redirection)
 app.get("/play/:gameName", (req, res) => {
   const gameName = req.params.gameName;
   const gameFilePath = path.join(__dirname, "code", `${gameName}.html`);
-
   if (!fs.existsSync(gameFilePath)) {
     return res.status(404).render("error", {
       message: "Jeu non disponible",
       error: `Le fichier de jeu "${gameName}.html" n'a pas été trouvé.`,
-      title: "Jeu non disponible",
+      title: "Jeu non disponible"
     });
   }
-
   res.redirect(`/code/${gameName}.html`);
 });
 
-// Route pour la section génétique
+// Section génétique (affiche tous les jeux de la catégorie "ia-apprend")
 app.get("/genetique", (req, res) => {
+  const genetiqueGames = allGames.filter(g => g.categorie === "ia-apprend");
   res.render("genetique", {
-    games: gamesConfigGenetique,
-    title: "Jeux avec Algorithmes Génétiques",
+    games: genetiqueGames,
+    title: "Jeux avec Algorithmes Génétiques"
   });
 });
 
-// API pour lister tous les jeux IA
+// API - tous les jeux
 app.get("/api/games", (req, res) => {
-  res.json(gamesConfigIA);
+  res.json(allGames);
 });
 
-// API pour lister tous les jeux génétiques
-app.get("/api/games/genetique", (req, res) => {
-  res.json(gamesConfigGenetique);
+// API - jeux par catégorie
+app.get("/api/games/:categorie", (req, res) => {
+  const { categorie } = req.params;
+  const filtered = allGames.filter(g => g.categorie === categorie);
+  res.json(filtered);
 });
 
-// API pour lister tous les jeux (IA + génétique)
-app.get("/api/games/all", (req, res) => {
-  res.json({
-    ia: gamesConfigIA,
-    genetique: gamesConfigGenetique,
-  });
-});
-
-// Route pour ajouter un nouveau jeu (optionnel)
+// API - ajout d'un jeu (optionnel, POST)
 app.post("/api/games", express.json(), (req, res) => {
-  const { name, config, type = "ia" } = req.body;
-  if (name && config) {
-    if (type === "genetique") {
-      gamesConfigGenetique[name] = config;
-    } else {
-      gamesConfigIA[name] = config;
-    }
-    res.json({ success: true, message: "Jeu ajouté avec succès" });
-  } else {
-    res.status(400).json({ success: false, message: "Données invalides" });
+  const { key, name, description, technology, youtubeUrl, difficulty, features, categorie } = req.body;
+  if (!key || !name || !categorie) {
+    return res.status(400).json({ success: false, message: "Champs obligatoires manquants." });
   }
+  if (allGames.find(g => g.key === key)) {
+    return res.status(400).json({ success: false, message: "Ce jeu existe déjà." });
+  }
+  allGames.push({
+    key, name, description, technology, youtubeUrl, difficulty, features, categorie
+  });
+  res.json({ success: true, message: "Jeu ajouté avec succès." });
 });
 
-// Gestion des erreurs 404
+// 404
 app.use((req, res) => {
   res.status(404).render("error", {
     message: "Page non trouvée",
     error: "La page que vous cherchez n'existe pas.",
-    title: "Erreur 404",
+    title: "Erreur 404"
   });
 });
 
-// Démarrage du serveur
+// Start
 app.listen(PORT, () => {
   console.log(`🎮 Serveur de jeux IA démarré sur http://localhost:${PORT}`);
-  console.log(
-    `🎯 Jeux IA configurés: ${Object.keys(gamesConfigIA).join(", ")}`
-  );
-  console.log(
-    `🧬 Jeux génétiques configurés: ${Object.keys(gamesConfigGenetique).join(
-      ", "
-    )}`
-  );
+  console.log(`🎯 Jeux configurés: ${allGames.map(g => g.key).join(", ")}`);
 });
 
 module.exports = app;
