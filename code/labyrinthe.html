@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Labyrinthe Intelligent</title>
+    <link rel="stylesheet" href="/labyrinthe/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 Générateur de Labyrinthe Intelligent</h1>
+            <p>Algorithmes de génération et résolution en temps réel</p>
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <div class="control-item">
+                    <label for="sizeSlider">Taille du labyrinthe</label>
+                    <input type="range" id="sizeSlider" min="10" max="50" value="25">
+                    <span id="sizeValue">25x25</span>
+                </div>
+                <div class="control-item">
+                    <label for="speedSlider">Vitesse d'animation</label>
+                    <input type="range" id="speedSlider" min="1" max="10" value="5">
+                    <span id="speedValue">5</span>
+                </div>
+            </div>
+            
+            <div class="buttons">
+                <button id="generateBtn" class="btn-primary">🎲 Générer Labyrinthe</button>
+                <button id="solveAStarBtn" class="btn-secondary" disabled>⭐ Résoudre A*</button>
+                <button id="solveBFSBtn" class="btn-success" disabled>🌊 Résoudre BFS</button>
+                <button id="clearBtn" class="btn-warning">🧹 Effacer</button>
+            </div>
+        </div>
+
+        <div id="status" class="status">Prêt à générer un labyrinthe</div>
+
+        <div class="maze-container">
+            <canvas id="mazeCanvas" width="600" height="600"></canvas>
+        </div>
+
+        <div class="stats">
+            <h3>📊 Statistiques</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value" id="genTime">-</div>
+                    <div class="stat-label">Temps de génération (ms)</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="astarTime">-</div>
+                    <div class="stat-label">Temps A* (ms)</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="bfsTime">-</div>
+                    <div class="stat-label">Temps BFS (ms)</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="pathLength">-</div>
+                    <div class="stat-label">Longueur du chemin</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="astarExplored">-</div>
+                    <div class="stat-label">Cellules A* explorées</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="bfsExplored">-</div>
+                    <div class="stat-label">Cellules BFS explorées</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <h4>🎨 Légende des couleurs</h4>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #333;"></div>
+                    <span>Mur</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: white;"></div>
+                    <span>Chemin libre</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #2196F3;"></div>
+                    <span>🟦 Entrée</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #F44336;"></div>
+                    <span>🟥 Sortie</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #4CAF50;"></div>
+                    <span>🟢 Chemin solution</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #FF9800;"></div>
+                    <span>🔍 Cellules explorées</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/labyrinthe/logique.js"></script>
+</body>
+</html>

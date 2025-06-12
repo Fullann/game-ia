@@ -95,7 +95,7 @@ const allGames = [
     youtubeUrl: "https://www.youtube.com/watch?v=example7",
     difficulty: "Intermédiaire",
     features: ["Algorithme A*", "Recherche BFS/DFS", "Visualisation du chemin"],
-    categorie: "solo-optimisable",
+    categorie: "algo",
   },
   {
     key: "tic-tac-toe-ia",
@@ -121,7 +121,6 @@ const allGames = [
     ],
     categorie: "contre-ia",
   },
-  // Jeux génétiques (catégorie : ia-apprend)
   {
     key: "flappybirdgenetique",
     name: "Flappy Bird avec algorithme génétique",
@@ -192,6 +191,20 @@ const allGames = [
       "Visualisation de la progression",
     ],
     categorie: "ia-apprend",
+  },
+  {
+    key: "labyrinthe",
+    name: "Algorithemes de création et résolution de labyrinthes",
+    description: "Génération et résolution de labyrinthes complexes avec des algorithmes de recherche et d'optimisation.",
+    technology: "JavaScript, HTML5 Canvas, Algorithmes génétiques",
+    youtubeUrl: "https://www.youtube.com/watch?v=example10",
+    difficulty: "Medium",
+    features: [
+      "Apprentissage automatique",
+      "Évolution des stratégies",
+      "Visualisation de la progression",
+    ],
+    categorie: "algo",
   }
 ];
 

@@ -21,11 +21,27 @@
     label: "🧬 Jeux où l’IA apprend à jouer",
     color: "bg-gradient-to-r from-green-400 to-teal-500",
     desc: "Observez des intelligences artificielles qui apprennent et s’améliorent par elles-mêmes grâce à l’apprentissage automatique ou aux algorithmes génétiques.",
+  },
+  {
+    key: "algo",
+    label: "💻 Algorithmes de génération",
+    color: "bg-gradient-to-r from-yellow-400 to-orange-500",
+    desc: "Découvrez des algorithmes qui créent ou résolvent des structures complexes, comme la génération et la résolution de labyrinthes.",
   }
 ]; %>
 
+<div class="mb-8 flex flex-wrap justify-center gap-4">
+  <% categories.forEach(cat => { %>
+    <a href="#<%= cat.key %>"
+       class="px-4 py-2 rounded-full font-semibold shadow bg-white border border-gray-200 hover:bg-blue-50 transition text-gray-700 hover:text-blue-700">
+      <%= cat.label %>
+    </a>
+  <% }); %>
+</div>
+
+
 <% categories.forEach(cat => { %>
-  <section class="mb-12 rounded-2xl shadow-lg overflow-hidden">
+  <section id="<%= cat.key %>" class="mb-12 rounded-2xl shadow-lg overflow-hidden">
     <div class="<%= cat.color %> p-6 md:p-8">
       <h2 class="text-2xl md:text-3xl font-bold text-white flex items-center gap-3 mb-2"><%= cat.label %></h2>
       <p class="text-white/90 text-base md:text-lg"><%= cat.desc %></p>
