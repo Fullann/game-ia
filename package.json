@@ -19,11 +19,12 @@
   "author": "Fullann",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.18.2",
     "ejs": "^3.1.9",
+    "express": "^4.18.2",
     "express-ejs-layouts": "^2.5.1",
-    "path": "^0.12.7",
-    "fs": "^0.0.1-security"
+    "fs": "^0.0.1-security",
+    "marked": "^15.0.12",
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
