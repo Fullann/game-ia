@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku - Joueur vs Robot</title>
+    <link rel="stylesheet" href="/sudoku/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Sudoku Optimisé</h1>
+        
+        <div class="controls">
+            <div class="difficulty">
+                <label>Difficulté:</label>
+                <select id="difficulty">
+                    <option value="easy">Facile (40-45 cases)</option>
+                    <option value="medium">Moyen (30-35 cases)</option>
+                    <option value="hard">Difficile (25-30 cases)</option>
+                    <option value="expert">Expert (20-25 cases)</option>
+                </select>
+            </div>
+            
+            <div class="buttons">
+                <button id="newGame">Nouvelle Grille</button>
+                <button id="solveRobot">Robot Résout</button>
+                <button id="clearGrid">Effacer</button>
+                <button id="checkSolution">Vérifier</button>
+            </div>
+        </div>
+        
+        <div class="game-info">
+            <div id="timer">Temps: 00:00</div>
+            <div id="status">Prêt à jouer</div>
+        </div>
+        
+        <div class="sudoku-grid" id="sudokuGrid"></div>
+        
+        <div class="robot-info">
+            <div id="robotStatus"></div>
+            <div id="robotSteps"></div>
+        </div>
+    </div>
+    
+    <script src="/sudoku/logique.js"></script>
+</body>
+</html>

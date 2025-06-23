@@ -1,0 +1,227 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 100%;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+}
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.difficulty select {
+    padding: 8px 12px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+#newGame {
+    background: #4CAF50;
+    color: white;
+}
+
+#solveRobot {
+    background: #2196F3;
+    color: white;
+}
+
+#clearGrid {
+    background: #ff9800;
+    color: white;
+}
+
+#checkSolution {
+    background: #9c27b0;
+    color: white;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #555;
+}
+
+.sudoku-grid {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 2px;
+    background: #333;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 20px auto;
+    max-width: 450px;
+    aspect-ratio: 1;
+}
+
+.cell {
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid #ddd;
+}
+
+.cell:hover {
+    background: #f0f8ff;
+}
+
+.cell.given {
+    background: #e8f4fd;
+    color: #1976d2;
+    cursor: not-allowed;
+}
+
+.cell.user-input {
+    background: #fff3e0;
+    color: #f57c00;
+}
+
+.cell.robot-solving {
+    background: #e8f5e8;
+    color: #388e3c;
+    animation: pulse 0.5s ease-in-out;
+}
+
+.cell.error {
+    background: #ffebee;
+    color: #d32f2f;
+    animation: shake 0.5s ease-in-out;
+}
+
+.cell.highlight {
+    background: #fff9c4;
+}
+
+/* Bordures épaisses pour séparer les blocs 3x3 */
+.cell:nth-child(3n) {
+    border-right: 3px solid #333;
+}
+
+.cell:nth-child(n+19):nth-child(-n+27),
+.cell:nth-child(n+46):nth-child(-n+54) {
+    border-bottom: 3px solid #333;
+}
+
+.robot-info {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f5f5f5;
+    border-radius: 8px;
+    min-height: 60px;
+}
+
+#robotStatus {
+    font-weight: bold;
+    color: #2196F3;
+    margin-bottom: 10px;
+}
+
+#robotSteps {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.4;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+    }
+
+    .controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .buttons {
+        justify-content: center;
+    }
+
+    .cell {
+        font-size: 16px;
+    }
+}

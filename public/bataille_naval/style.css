@@ -1,0 +1,374 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    min-height: 100vh;
+    color: #333;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    min-height: 100vh;
+}
+
+h1 {
+    text-align: center;
+    color: #1e3c72;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.game-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.difficulty-selector select {
+    padding: 8px 12px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.game-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+#randomizeShips {
+    background: #17a2b8;
+    color: white;
+}
+
+#startGame {
+    background: #28a745;
+    color: white;
+}
+
+#resetGame {
+    background: #dc3545;
+    color: white;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.game-status {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #e9ecef;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.ai-status {
+    color: #007bff;
+    font-style: italic;
+}
+
+.game-boards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.player-section,
+.enemy-section {
+    text-align: center;
+}
+
+.grid-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(10, 35px);
+    grid-template-rows: repeat(10, 35px);
+    gap: 1px;
+    background: #333;
+    padding: 5px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.cell {
+    background: #87ceeb;
+    border: 1px solid #4682b4;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 12px;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.cell:hover {
+    background: #add8e6;
+    transform: scale(1.05);
+}
+
+.cell.ship {
+    background: #696969;
+    color: white;
+}
+
+.cell.hit {
+    background: #ff6b6b;
+    color: white;
+}
+
+.cell.miss {
+    background: #74c0fc;
+    color: #1864ab;
+}
+
+.cell.sunk {
+    background: #495057;
+    color: #f8f9fa;
+}
+
+.cell.ship-preview {
+    background: rgba(105, 105, 105, 0.5);
+    border: 2px dashed #696969;
+}
+
+.cell.invalid-preview {
+    background: rgba(255, 107, 107, 0.5);
+    border: 2px dashed #ff6b6b;
+}
+
+.cell.probability-high {
+    background: rgba(255, 107, 107, 0.8);
+}
+
+.cell.probability-medium {
+    background: rgba(255, 193, 7, 0.6);
+}
+
+.cell.probability-low {
+    background: rgba(40, 167, 69, 0.4);
+}
+
+.ships-remaining {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border: 2px solid #dee2e6;
+    min-width: 200px;
+}
+
+.ship-status {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.ship-status.alive {
+    background: #d4edda;
+    color: #155724;
+}
+
+.ship-status.sunk {
+    background: #f8d7da;
+    color: #721c24;
+    text-decoration: line-through;
+}
+
+.ship-placement {
+    background: #fff3cd;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #ffeaa7;
+    margin-bottom: 20px;
+}
+
+.ships-to-place {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.ship-item {
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.ship-item:hover {
+    background: #f0f0f0;
+}
+
+.ship-item.selected {
+    background: #cce5ff;
+    border-color: #007bff;
+}
+
+.ship-item.placed {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.ship-preview {
+    display: flex;
+    gap: 2px;
+    justify-content: center;
+    margin-top: 5px;
+}
+
+.ship-preview::before {
+    content: '';
+    display: flex;
+    gap: 2px;
+}
+
+.ship-preview[data-length="5"]::before {
+    content: '■ ■ ■ ■ ■';
+}
+
+.ship-preview[data-length="4"]::before {
+    content: '■ ■ ■ ■';
+}
+
+.ship-preview[data-length="3"]::before {
+    content: '■ ■ ■';
+}
+
+.ship-preview[data-length="2"]::before {
+    content: '■ ■';
+}
+
+.placement-controls {
+    text-align: center;
+    margin-top: 15px;
+}
+
+#rotateShip {
+    background: #6f42c1;
+    color: white;
+    margin-right: 15px;
+}
+
+.ai-analysis {
+    background: #e7f3ff;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #b3d9ff;
+}
+
+.ai-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.ai-stats div {
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    border-left: 4px solid #007bff;
+}
+
+.probability-heatmap {
+    display: grid;
+    grid-template-columns: repeat(10, 20px);
+    grid-template-rows: repeat(10, 20px);
+    gap: 1px;
+    background: #333;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 0 auto;
+    width: fit-content;
+}
+
+.heatmap-cell {
+    background: #87ceeb;
+    font-size: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 1200px) {
+    .game-boards {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(10, 30px);
+        grid-template-rows: repeat(10, 30px);
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .game-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .grid {
+        grid-template-columns: repeat(10, 25px);
+        grid-template-rows: repeat(10, 25px);
+    }
+
+    .ships-to-place {
+        flex-direction: column;
+        align-items: center;
+    }
+}

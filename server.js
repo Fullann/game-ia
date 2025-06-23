@@ -24,6 +24,36 @@ const allGames = [
     categorie: "ia-apprend",
   },
   {
+    key: "sudoku-ia",
+    name: "Sudoku avec IA",
+    description:
+      "Un solveur de Sudoku utilisant des algorithmes de backtracking et de recherche heuristique.",
+    technology: "JavaScript, HTML5 Canvas, Algorithme génétique",
+    youtubeUrl: "https://www.youtube.com/watch?v=example1",
+    difficulty: "Intermédiaire",
+    features: [
+      "IA auto-joueur",
+      "Apprentissage par renforcement",
+      "Visualisation en temps réel",
+    ],
+    categorie: "ia-apprend",
+  },
+  {
+    key: "demineur-ia",
+    name: "Démineur avec IA",
+    description:
+      "Un jeu de Démineur où l'IA utilise des algorithmes de probabilité pour deviner la position des mines.",
+    technology: "JavaScript, HTML5 Canvas, Algorithme génétique",
+    youtubeUrl: "https://www.youtube.com/watch?v=example1",
+    difficulty: "Intermédiaire",
+    features: [
+      "IA auto-joueur",
+      "Apprentissage par renforcement",
+      "Visualisation en temps réel",
+    ],
+    categorie: "ia-apprend",
+  },
+  {
     key: "2048-ia",
     name: "2048 avec IA",
     description:
@@ -110,6 +140,17 @@ const allGames = [
     name: "Tic-Tac-Toe IA",
     description:
       "Morpion contre une IA imbattable utilisant l'algorithme Minimax.",
+    technology: "JavaScript, Algorithme Minimax",
+    youtubeUrl: "https://www.youtube.com/watch?v=example8",
+    difficulty: "Débutant",
+    features: ["IA imbattable", "Interface intuitive", "Algorithme Minimax"],
+    categorie: "contre-ia",
+  },
+  {
+    key: "bataille_naval-ia",
+    name: "Bataille Navale IA",
+    description:
+      "Bataille Navale contre une IA utilisant des stratégies de ciblage et d'optimisation.",
     technology: "JavaScript, Algorithme Minimax",
     youtubeUrl: "https://www.youtube.com/watch?v=example8",
     difficulty: "Débutant",

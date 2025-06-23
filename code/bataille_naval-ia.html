@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bataille Navale Intelligente</title>
+    <link rel="stylesheet" href="/bataille_naval/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Bataille Navale Intelligente</h1>
+
+      <div class="game-controls">
+        <div class="difficulty-selector">
+          <label>Difficulté IA:</label>
+          <select id="difficulty">
+            <option value="easy">Facile - Tirs aléatoires</option>
+            <option value="medium">Moyen - Chasse après touché</option>
+            <option value="hard">Difficile - Analyse de densité</option>
+            <option value="adaptive">Adaptatif - Apprend vos patterns</option>
+          </select>
+        </div>
+
+        <div class="game-buttons">
+          <button id="randomizeShips">Placement Aléatoire</button>
+          <button id="startGame">Commencer la Partie</button>
+          <button id="resetGame">Nouvelle Partie</button>
+        </div>
+      </div>
+
+      <div class="game-status">
+        <div id="gamePhase">Phase: Placement des navires</div>
+        <div id="currentPlayer">Tour: Joueur</div>
+        <div id="aiThinking" class="ai-status"></div>
+      </div>
+
+      <div class="game-boards">
+        <div class="player-section">
+          <h3>Votre Flotte</h3>
+          <div class="grid-container">
+            <div class="grid player-grid" id="playerGrid"></div>
+            <div class="ships-remaining">
+              <h4>Navires restants:</h4>
+              <div id="playerShips"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="enemy-section">
+          <h3>Flotte Ennemie</h3>
+          <div class="grid-container">
+            <div class="grid enemy-grid" id="enemyGrid"></div>
+            <div class="ships-remaining">
+              <h4>Navires restants:</h4>
+              <div id="enemyShips"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ship-placement" id="shipPlacement">
+        <h3>Placez vos navires</h3>
+        <div class="ships-to-place">
+          <div class="ship-item" data-ship="carrier">
+            <span class="ship-name">Porte-avions (5)</span>
+            <div class="ship-preview" data-length="5"></div>
+          </div>
+          <div class="ship-item" data-ship="battleship">
+            <span class="ship-name">Cuirassé (4)</span>
+            <div class="ship-preview" data-length="4"></div>
+          </div>
+          <div class="ship-item" data-ship="cruiser">
+            <span class="ship-name">Croiseur (3)</span>
+            <div class="ship-preview" data-length="3"></div>
+          </div>
+          <div class="ship-item" data-ship="submarine">
+            <span class="ship-name">Sous-marin (3)</span>
+            <div class="ship-preview" data-length="3"></div>
+          </div>
+          <div class="ship-item" data-ship="destroyer">
+            <span class="ship-name">Destroyer (2)</span>
+            <div class="ship-preview" data-length="2"></div>
+          </div>
+        </div>
+        <div class="placement-controls">
+          <button id="rotateShip">Rotation (R)</button>
+          <span>Cliquez sur la grille pour placer</span>
+        </div>
+      </div>
+
+      <div class="ai-analysis">
+        <h3>Analyse de l'IA</h3>
+        <div class="ai-stats">
+          <div>Stratégie actuelle: <span id="aiStrategy">-</span></div>
+          <div>Précision: <span id="aiAccuracy">0%</span></div>
+          <div>Patterns détectés: <span id="patternsFound">0</span></div>
+          <div>Probabilité max: <span id="maxProbability">0%</span></div>
+        </div>
+        <div class="probability-heatmap" id="probabilityHeatmap"></div>
+      </div>
+    </div>
+
+    <script src="/bataille_naval/logique.js"></script>
+  </body>
+</html>
