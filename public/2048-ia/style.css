@@ -313,3 +313,51 @@
      text-align: center;
      font-size: 14px;
  }
+
+ .ai-controls {
+     background: rgba(76, 175, 80, 0.1);
+     padding: 15px;
+     border-radius: 10px;
+     margin: 10px 0;
+ }
+
+ .control-group {
+     margin: 10px 0;
+     display: flex;
+     align-items: center;
+     gap: 10px;
+ }
+
+ .control-group label {
+     font-size: 14px;
+     font-weight: bold;
+     min-width: 140px;
+ }
+
+ .slider {
+     flex: 1;
+     height: 6px;
+     border-radius: 3px;
+     background: #ddd;
+     outline: none;
+     -webkit-appearance: none;
+ }
+
+ .slider::-webkit-slider-thumb {
+     -webkit-appearance: none;
+     appearance: none;
+     width: 20px;
+     height: 20px;
+     border-radius: 50%;
+     background: #4CAF50;
+     cursor: pointer;
+ }
+
+ .slider::-moz-range-thumb {
+     width: 20px;
+     height: 20px;
+     border-radius: 50%;
+     background: #4CAF50;
+     cursor: pointer;
+     border: none;
+ }

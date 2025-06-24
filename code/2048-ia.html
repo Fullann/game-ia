@@ -25,6 +25,41 @@
       </div>
 
       <div class="ai-stats" id="ai-stats" style="display: none">
+        <div id="ai-controls" class="ai-controls" style="display: none">
+          <div class="control-group">
+            <label for="depth-slider"
+              >Profondeur d'analyse: <span id="depth-value">4</span></label
+            >
+            <input
+              type="range"
+              id="depth-slider"
+              min="2"
+              max="8"
+              value="4"
+              class="slider"
+            />
+          </div>
+          <div class="control-group">
+            <label for="speed-slider"
+              >Vitesse IA: <span id="speed-value">500ms</span></label
+            >
+            <input
+              type="range"
+              id="speed-slider"
+              min="50"
+              max="2000"
+              value="500"
+              step="50"
+              class="slider"
+            />
+          </div>
+          <div class="control-group">
+            <label>
+              <input type="checkbox" id="use-cache" /> Utiliser le cache
+            </label>
+          </div>
+        </div>
+
         <div>Profondeur d'analyse: <span id="ai-depth">4</span></div>
         <div>Positions évaluées: <span id="positions-evaluated">0</span></div>
         <div>Temps de calcul: <span id="calculation-time">0</span>ms</div>
@@ -56,13 +91,6 @@
         >
           ⏹ Arrêter IA
         </button>
-      </div>
-
-      <div class="instructions">
-        <strong>Comment jouer:</strong><br />
-        Utilisez les touches fléchées ou WASD pour déplacer les tuiles.<br />
-        Combinez les tuiles identiques pour créer des nombres plus grands.<br />
-        Atteignez la tuile 2048 pour gagner!
       </div>
     </div>
     <script src="/2048-ia/logique.js"></script>
